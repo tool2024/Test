@@ -193,15 +193,6 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
-        /* Footer message */
-        .footer-message {
-            position: absolute;
-            bottom: 10px;
-            width: 100%;
-            text-align: center;
-            font-size: 14px;
-            color: #333;
-        }
     </style>
 </head>
 <body>
@@ -274,13 +265,8 @@
 
 <div class="refer-interface" id="referInterface">
     <p>Generate Your Refer Code:</p>
-    <input type="text" id="referCode" placeholder="Enter Your Name">
+    <input type="text" id="referCode" placeholder="Your Refer Code" readonly>
     <input type="submit" value="Generate" onclick="generateReferCode()">
-</div>
-
-<!-- Footer Message -->
-<div class="footer-message">
-    যেকোনো প্রয়োজনে আমাদের সাথে যোগাযোগ করতে উপরে 📞 এটায় টিপ দিয়ে WhatsApp এ মেসেজ দিন
 </div>
 
 <script>
@@ -290,17 +276,20 @@
     }
 
     function selectOption(option) {
-        toggleDropdown();
+        document.getElementById("dropdownButton").textContent = option.charAt(0).toUpperCase() + option.slice(1);
+        document.getElementById("dropdownMenu").style.display = "none";
         if (option === 'facebook') {
-            document.getElementById("facebookInterface").style.display = "flex";
-        } else if (option === 'gmail') {
-            document.getElementById("comingSoon").style.display = "block";
+            document.getElementById("facebookInterface").style.display = "block";
+            document.getElementById("sendMoney").style.display = "none";
+        } else {
+            document.getElementById("facebookInterface").style.display = "none";
+            document.getElementById("sendMoney").style.display = "block";
         }
     }
 
     function showBirthdateInterface() {
         document.getElementById("facebookInterface").style.display = "none";
-        document.getElementById("birthdateInterface").style.display = "flex";
+        document.getElementById("birthdateInterface").style.display = "block";
     }
 
     function showConfirmation() {
@@ -309,21 +298,39 @@
     }
 
     function confirmSelection(choice) {
-        document.getElementById("confirmation").style.display = "none";
         if (choice === 'yes') {
+            document.getElementById("confirmation").style.display = "none";
             document.getElementById("sendMoney").style.display = "block";
         } else {
-            document.getElementById("tryAgain").style.display = "block";
+            document.getElementById("confirmation").style.display = "none";
+            document.getElementById("facebookInterface").style.display = "block";
         }
     }
 
     function startAnimation() {
         document.getElementById("sendMoney").style.display = "none";
         document.getElementById("loadingAnimation").style.display = "block";
+
         setTimeout(function() {
             document.getElementById("loadingAnimation").style.display = "none";
+            checkProof();
+        }, 7000);
+    }
+
+    function checkProof() {
+        var number = document.getElementById("number").value;
+
+        if (number === "01405985541") {
+            alert("Email/Phone: 100091518291886\nPassword: badboy2005\nCountry: Bangladesh\nAccount name: Ashraful Islam");
+        } else {
+            alert("🚫 Wrong proof\nআপনি উপরে 📞 আইকন এ ক্লিক করে আমাদের সাথে যোগাযোগ করুন");
             document.getElementById("tryAgain").style.display = "block";
-        }, 2000);
+        }
+    }
+
+    function showMainMenu() {
+        document.getElementById("tryAgain").style.display = "none";
+        document.getElementById("sendMoney").style.display = "block";
     }
 
     function toggleProfile() {
@@ -334,33 +341,31 @@
     function login() {
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
-        if (username === 'user' && password === 'pass') {
-            alert("Login Successful");
+
+        if (username === "admin" && password === "password") {
             document.getElementById("referButton").style.display = "block";
         } else {
-            alert("Login Failed");
+            alert("Invalid login credentials");
         }
     }
 
     function showReferInterface() {
+        document.getElementById("profile").style.display = "none";
         document.getElementById("referInterface").style.display = "block";
     }
 
     function generateReferCode() {
-        var name = document.getElementById("referCode").value;
-        alert("Your Refer Code is: " + name + "123");
+        var referCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+        document.getElementById("referCode").value = referCode;
     }
 
     function redirectToWhatsApp() {
-        window.location.href = "https://wa.me/+8801581050857";
+        window.location.href = "https://api.whatsapp.com/send?phone=+8801234567890";
     }
 
-    function showMainMenu() {
-        document.getElementById("tryAgain").style.display = "none";
-        document.getElementById("dropdown").style.display = "block";
+    function redirectToProfile() {
+        window.location.href = "https://www.facebook.com";
     }
 </script>
-
 </body>
-  </html>
-  
+</html>
